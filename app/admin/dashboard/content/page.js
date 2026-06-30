@@ -1,6 +1,6 @@
 'use client';
 import { useEffect, useState } from 'react';
-import { createClient } from '../../../../lib/supabase-client';
+import { createClient } from '../../../lib/supabase-client';
 
 const SECTIONS = [
   { section: 'hero', title: 'Hero секција', fields: [
