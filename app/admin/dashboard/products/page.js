@@ -118,8 +118,22 @@ export default function ProductsPage() {
           <div className="admin-img-preview">
             {editing.image_url ? <img src={editing.image_url} alt="" /> : <span style={{ color: 'var(--gray-light)', fontSize: '0.8rem' }}>Нема слика</span>}
           </div>
-          <input type="file" accept="image/*" onChange={handleImageUpload} disabled={uploading} />
-          {uploading && <p style={{ fontSize: '0.8rem', color: 'var(--gray)' }}>Се качува...</p>}
+          <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', marginBottom: '0.5rem' }}>
+            <label style={{ background: 'var(--black)', color: 'var(--white)', padding: '0.6rem 1.25rem', borderRadius: '8px', fontSize: '0.85rem', fontWeight: 600, cursor: uploading ? 'not-allowed' : 'pointer', opacity: uploading ? 0.6 : 1 }}>
+              {uploading ? 'Се качува...' : '📁 Избери слика'}
+              <input
+                key={editing.id || 'new'}
+                type="file"
+                accept="image/*"
+                onChange={handleImageUpload}
+                disabled={uploading}
+                style={{ display: 'none' }}
+              />
+            </label>
+            {editing.image_url && (
+              <span style={{ fontSize: '0.78rem', color: 'var(--green)' }}>✓ Сликата е поставена</span>
+            )}
+          </div>
 
           <div className="admin-grid-2">
             <div>
