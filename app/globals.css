@@ -22,7 +22,7 @@ a{text-decoration:none;color:inherit}
 
 nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:1.5rem 3rem;background:rgba(255,255,255,0.88);backdrop-filter:blur(14px);transition:all 0.3s;border-bottom:1px solid transparent}
 nav.scrolled{border-bottom:1px solid var(--border);padding:1.1rem 3rem}
-.nav-logo img{height:34px;width:auto}
+.nav-logo img{height:50px;width:auto;object-fit:contain}
 .nav-links{display:flex;align-items:center;gap:2.75rem;list-style:none}
 .nav-links a{font-size:0.82rem;font-weight:500;letter-spacing:0.03em;color:var(--ink);position:relative;padding-bottom:4px}
 .nav-links a::after{content:'';position:absolute;bottom:0;left:0;width:0;height:1px;background:var(--green);transition:width 0.25s}
