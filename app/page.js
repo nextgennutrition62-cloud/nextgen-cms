@@ -1,5 +1,5 @@
-import { getAllContent, getAllSettings, getActiveProducts } from '../lib/data';
-import HomeClient from '../components/HomeClient';
+import { getAllContent, getAllSettings, getActiveProducts } from '@/lib/data';
+import HomeClient from '@/components/HomeClient';
 
 export const revalidate = 0; // секогаш свежи податоци, без cache
 

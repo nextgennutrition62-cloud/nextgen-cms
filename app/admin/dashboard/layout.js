@@ -1,7 +1,7 @@
 'use client';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
-import { createClient } from '../../../lib/supabase-client';
+import { createClient } from '@/lib/supabase-client';
 
 const navItems = [
   { href: '/admin/dashboard', label: 'Преглед' },
