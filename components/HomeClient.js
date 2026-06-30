@@ -110,7 +110,24 @@ export default function HomeClient({ content, settings, products }) {
           <li><a href="/blog">Блог</a></li>
           <li><a href="#contact">Контакт</a></li>
         </ul>
-        <a href="#cleanpro" className="nav-cta">Нарачај сега</a>
+        <div style={{display:'flex',alignItems:'center',gap:'0.75rem'}}>
+          <button
+            onClick={() => { setOrderDone(null); setCheckoutOpen(true); }}
+            aria-label="Кошничка"
+            style={{position:'relative',background:'none',border:'1.5px solid var(--border)',borderRadius:'100px',padding:'0.55rem 1rem',cursor:'pointer',display:'flex',alignItems:'center',gap:'0.4rem',fontSize:'0.82rem',fontWeight:600,color:'var(--ink)',transition:'all 0.2s'}}
+          >
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/>
+            </svg>
+            Кошничка
+            {cart.length > 0 && (
+              <span style={{background:'var(--green)',color:'#fff',borderRadius:'100px',fontSize:'0.65rem',fontWeight:700,padding:'1px 7px',marginLeft:'2px'}}>
+                {cart.reduce((s,i)=>s+i.qty,0)}
+              </span>
+            )}
+          </button>
+          <a href="#cleanpro" className="nav-cta">Нарачај сега</a>
+        </div>
         <button className="hamburger" onClick={() => setMobileOpen(!mobileOpen)} aria-label="Мени">
           <span></span><span></span><span></span>
         </button>
@@ -126,18 +143,37 @@ export default function HomeClient({ content, settings, products }) {
 
       {/* HERO */}
       <section className="hero" id="home">
-        <div className="hero-inner">
-          <div>
-            <span className="hero-eyebrow">{hero.eyebrow}</span>
-            <h1 className="hero-title">{hero.title}</h1>
-            <p className="hero-subtitle">{hero.subtitle}</p>
-            <div className="hero-actions">
-              <a href="#cleanpro" className="btn-dark">Откриј го CLEANPRO</a>
-              <a href="#about" className="btn-ghost">Запознај го брендот</a>
-            </div>
+        <div className="hero-orb hero-orb1"></div>
+        <div className="hero-orb hero-orb2"></div>
+        <div className="hero-orb hero-orb3"></div>
+        <div className="hero-glass">
+          <span className="hero-eyebrow">{hero.eyebrow}</span>
+          <h1 className="hero-title">{hero.title}</h1>
+          <p className="hero-subtitle">{hero.subtitle}</p>
+          <div className="hero-actions">
+            <a href="#cleanpro" className="btn-dark">Откријте го CLEANPRO</a>
+            <a href="#about" className="btn-ghost">Запознај го брендот</a>
           </div>
-          <div className="hero-visual">
-            {featured?.image_url && <img src={featured.image_url} alt={featured.name} />}
+          <div className="hero-stats">
+            <div className="hero-stat">
+              <div className="hero-stat-num">{featured?.protein_g}g</div>
+              <div className="hero-stat-label">Протеин</div>
+            </div>
+            <div className="hero-stat-divider"></div>
+            <div className="hero-stat">
+              <div className="hero-stat-num">{featured?.sugar_g}g</div>
+              <div className="hero-stat-label">Шеќер</div>
+            </div>
+            <div className="hero-stat-divider"></div>
+            <div className="hero-stat">
+              <div className="hero-stat-num">{featured?.servings}</div>
+              <div className="hero-stat-label">Оброци</div>
+            </div>
+            <div className="hero-stat-divider"></div>
+            <div className="hero-stat">
+              <div className="hero-stat-num">100%</div>
+              <div className="hero-stat-label">Природно</div>
+            </div>
           </div>
         </div>
       </section>
