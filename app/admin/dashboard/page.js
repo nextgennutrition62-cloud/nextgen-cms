@@ -1,7 +1,7 @@
 'use client';
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
-import { createClient } from '../../../../lib/supabase-client';
+import { createClient } from '../../../lib/supabase-client';
 
 export default function DashboardOverview() {
   const [stats, setStats] = useState({ products: 0, newOrders: 0, totalOrders: 0 });
