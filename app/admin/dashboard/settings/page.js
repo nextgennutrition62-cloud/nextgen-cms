@@ -31,6 +31,7 @@ export default function SettingsPage() {
       await supabase.from('settings').upsert({ key, value }, { onConflict: 'key' });
     }
     setSaving(false);
+    await fetch('/api/revalidate', { method: 'POST' });
     setToast('Поставките се зачувани!');
     setTimeout(() => setToast(''), 2500);
   }
@@ -63,7 +64,35 @@ export default function SettingsPage() {
       </div>
 
       <div className="admin-card">
-        <div className="admin-card-title">Достава</div>
+        <div className="admin-card-title">Големина на слики по секција</div>
+
+        <label className="admin-label">Featured производ — слика ({settings.img_size_featured || '100'}%)</label>
+        <input type="range" min="30" max="160" step="5"
+          value={settings.img_size_featured || '100'}
+          onChange={(e) => update('img_size_featured', e.target.value)}
+          style={{width:'100%',accentColor:'var(--green)',margin:'0.25rem 0 0.75rem'}}
+        />
+
+        <label className="admin-label">За нас — слика ({settings.img_size_about || '100'}%)</label>
+        <input type="range" min="30" max="160" step="5"
+          value={settings.img_size_about || '100'}
+          onChange={(e) => update('img_size_about', e.target.value)}
+          style={{width:'100%',accentColor:'var(--green)',margin:'0.25rem 0 0.75rem'}}
+        />
+
+        <label className="admin-label">Кошничка — слика ({settings.img_size_cart || '100'}%)</label>
+        <input type="range" min="30" max="160" step="5"
+          value={settings.img_size_cart || '100'}
+          onChange={(e) => update('img_size_cart', e.target.value)}
+          style={{width:'100%',accentColor:'var(--green)',margin:'0.25rem 0 0.5rem'}}
+        />
+
+        <div style={{display:'flex',justifyContent:'space-between',fontSize:'0.7rem',color:'var(--gray-light)'}}>
+          <span>30%</span><span>100%</span><span>160%</span>
+        </div>
+      </div>
+
+
         <label className="admin-label">Цена за достава (ден)</label>
         <input className="admin-input" type="number" value={settings.shipping_cost || ''} onChange={(e) => update('shipping_cost', e.target.value)} />
       </div>
