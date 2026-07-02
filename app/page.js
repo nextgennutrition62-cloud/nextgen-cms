@@ -1,7 +1,8 @@
 import { getAllContent, getAllSettings, getActiveProducts } from '@/lib/data';
 import HomeClient from '@/components/HomeClient';
 
-export const revalidate = 0; // секогаш свежи податоци, без cache
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
 
 export default async function Home() {
   const [content, settings, products] = await Promise.all([
