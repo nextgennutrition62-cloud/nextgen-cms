@@ -23,6 +23,9 @@ export default function HomeClient({ content, settings, products }) {
   const showComingSoon = settings.show_coming_soon !== 'false';
   const showAudience = settings.show_audience !== 'false';
   const shippingCost = Number(settings.shipping_cost || 150);
+  const imgFeatured = { maxWidth: `${settings.img_size_featured || 100}%`, width: '100%', transition: 'max-width 0.3s' };
+  const imgAbout = { maxWidth: `${settings.img_size_about || 100}%`, width: '100%', transition: 'max-width 0.3s' };
+  const imgCart = { width: `${Math.round((settings.img_size_cart || 100) * 0.64)}px`, height: `${Math.round((settings.img_size_cart || 100) * 0.64)}px`, objectFit: 'contain', background: 'var(--white)', borderRadius: 10, padding: '0.4rem', flexShrink: 0 };
 
   const featured = products.find((p) => p.is_featured) || products[0];
 
@@ -187,7 +190,7 @@ export default function HomeClient({ content, settings, products }) {
             <p className="section-text">{about.text}</p>
           </div>
           <div className="about-img">
-            {featured?.image_url && <img src={featured.image_url} alt={featured.name} />}
+            {featured?.image_url && <img src={featured.image_url} alt={featured.name} style={imgAbout} />}
           </div>
         </div>
       </section>
@@ -205,7 +208,7 @@ export default function HomeClient({ content, settings, products }) {
       <section className="featured" id="cleanpro">
         <div className="featured-inner">
           <div className="featured-visual">
-            {featured?.image_url && <img src={featured.image_url} alt={featured.name} />}
+            {featured?.image_url && <img src={featured.image_url} alt={featured.name} style={imgFeatured} />}
           </div>
           <div>
             <span className="featured-tag">OUR FIRST PRODUCT</span>
@@ -367,7 +370,7 @@ export default function HomeClient({ content, settings, products }) {
                   <>
                     {cart.map((item) => (
                       <div className="cart-line" key={item.id}>
-                        {item.image_url && <img src={item.image_url} alt={item.name} />}
+                        {item.image_url && <img src={item.image_url} alt={item.name} style={imgCart} />}
                         <div>
                           <div className="cart-line-name">{item.name}</div>
                           <div className="cart-line-meta">
