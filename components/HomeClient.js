@@ -23,9 +23,15 @@ export default function HomeClient({ content, settings, products }) {
   const showComingSoon = settings.show_coming_soon !== 'false';
   const showAudience = settings.show_audience !== 'false';
   const shippingCost = Number(settings.shipping_cost || 150);
-  const imgFeatured = { maxWidth: `${settings.img_size_featured || 100}%`, width: '100%', transition: 'max-width 0.3s' };
-  const imgAbout = { maxWidth: `${settings.img_size_about || 100}%`, width: '100%', transition: 'max-width 0.3s' };
-  const imgCart = { width: `${Math.round((settings.img_size_cart || 100) * 0.64)}px`, height: `${Math.round((settings.img_size_cart || 100) * 0.64)}px`, objectFit: 'contain', background: 'var(--white)', borderRadius: 10, padding: '0.4rem', flexShrink: 0 };
+
+  // Посебни слики по секција
+  const heroImageUrl = settings.hero_image_url || featured?.image_url || '';
+  const aboutImageUrl = settings.about_image_url || featured?.image_url || '';
+
+  // Посебни големини по секција
+  const imgSizeHero = Number(settings.img_size_hero || 100);
+  const imgSizeFeatured = Number(settings.img_size_featured || 100);
+  const imgSizeAbout = Number(settings.img_size_about || 100);
 
   const featured = products.find((p) => p.is_featured) || products[0];
 
@@ -149,6 +155,11 @@ export default function HomeClient({ content, settings, products }) {
         <div className="hero-orb hero-orb1"></div>
         <div className="hero-orb hero-orb2"></div>
         <div className="hero-orb hero-orb3"></div>
+        {heroImageUrl && (
+          <div style={{ position: 'absolute', right: '5%', top: '50%', transform: 'translateY(-50%)', zIndex: 1, opacity: 0.18, pointerEvents: 'none' }}>
+            <img src={heroImageUrl} alt="" style={{ maxWidth: `${imgSizeHero}%`, width: 320, objectFit: 'contain' }} />
+          </div>
+        )}
         <div className="hero-glass">
           <span className="hero-eyebrow">{hero.eyebrow}</span>
           <h1 className="hero-title">{hero.title}</h1>
@@ -190,7 +201,7 @@ export default function HomeClient({ content, settings, products }) {
             <p className="section-text">{about.text}</p>
           </div>
           <div className="about-img">
-            {featured?.image_url && <img src={featured.image_url} alt={featured.name} style={imgAbout} />}
+            {aboutImageUrl && <img src={aboutImageUrl} alt="За нас" style={{ maxWidth: `${imgSizeAbout}%`, width: '100%', transition: 'max-width 0.3s' }} />}
           </div>
         </div>
       </section>
@@ -208,7 +219,7 @@ export default function HomeClient({ content, settings, products }) {
       <section className="featured" id="cleanpro">
         <div className="featured-inner">
           <div className="featured-visual">
-            {featured?.image_url && <img src={featured.image_url} alt={featured.name} style={imgFeatured} />}
+            {featured?.image_url && <img src={featured.image_url} alt={featured.name} style={{ maxWidth: `${imgSizeFeatured}%`, width: '100%', transition: 'max-width 0.3s' }} />}
           </div>
           <div>
             <span className="featured-tag">OUR FIRST PRODUCT</span>
