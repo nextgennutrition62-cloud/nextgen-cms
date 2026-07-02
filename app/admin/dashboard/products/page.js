@@ -58,6 +58,7 @@ export default function ProductsPage() {
     } else {
       await supabase.from('products').insert(editing);
     }
+    await fetch('/api/revalidate', { method: 'POST' });
     setEditing(null);
     setToast('Производот е зачуван!');
     setTimeout(() => setToast(''), 2500);
