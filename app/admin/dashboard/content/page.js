@@ -58,6 +58,7 @@ export default function ContentPage() {
       await supabase.from('content').upsert(row, { onConflict: 'section,key' });
     }
     setSaving(false);
+    await fetch('/api/revalidate', { method: 'POST' });
     setToast('Содржината е зачувана!');
     setTimeout(() => setToast(''), 2500);
   }
