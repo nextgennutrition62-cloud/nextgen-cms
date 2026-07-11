@@ -166,6 +166,8 @@ export default function ProductsPage() {
               <label className="admin-label">Број на оброци</label>
               <input className="admin-input" type="number" value={editing.servings} onChange={(e) => setEditing({ ...editing, servings: Number(e.target.value) })} />
             </div>
+            <div></div>
+          </div>
 
           <div className="admin-grid-2">
             <div>
