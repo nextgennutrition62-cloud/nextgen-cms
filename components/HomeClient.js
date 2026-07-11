@@ -127,22 +127,32 @@ export default function HomeClient({ content, settings, products }) {
         <div className="hero-orb hero-orb1"></div>
         <div className="hero-orb hero-orb2"></div>
         <div className="hero-orb hero-orb3"></div>
-        <div className="hero-glass">
-          <span className="hero-eyebrow">{hero.eyebrow}</span>
-          <h1 className="hero-title">{hero.title}</h1>
-          <p className="hero-subtitle">{hero.subtitle}</p>
-          <div className="hero-actions">
-            <a href="#cleanpro" className="btn-dark">Откријте го CLEANPRO</a>
-            <a href="#about" className="btn-ghost">Запознај го брендот</a>
+        <div className="hero-inner-split">
+          <div className="hero-glass hero-glass-left">
+            <span className="hero-eyebrow">{hero.eyebrow}</span>
+            <h1 className="hero-title">{hero.title}</h1>
+            <p className="hero-subtitle">{hero.subtitle}</p>
+            <div className="hero-actions">
+              <a href="#cleanpro" className="btn-dark">Откријте го CLEANPRO</a>
+              <a href="#about" className="btn-ghost">Запознај го брендот</a>
+            </div>
+            <div className="hero-stats">
+              <div className="hero-stat"><div className="hero-stat-num">{featured?.protein_g}g</div><div className="hero-stat-label">Протеин</div></div>
+              <div className="hero-stat-divider"></div>
+              <div className="hero-stat"><div className="hero-stat-num">{featured?.sugar_g}g</div><div className="hero-stat-label">Шеќер</div></div>
+              <div className="hero-stat-divider"></div>
+              <div className="hero-stat"><div className="hero-stat-num">{featured?.servings}</div><div className="hero-stat-label">Оброци</div></div>
+              <div className="hero-stat-divider"></div>
+              <div className="hero-stat"><div className="hero-stat-num">100%</div><div className="hero-stat-label">Природно</div></div>
+            </div>
           </div>
-          <div className="hero-stats">
-            <div className="hero-stat"><div className="hero-stat-num">{featured?.protein_g}g</div><div className="hero-stat-label">Протеин</div></div>
-            <div className="hero-stat-divider"></div>
-            <div className="hero-stat"><div className="hero-stat-num">{featured?.sugar_g}g</div><div className="hero-stat-label">Шеќер</div></div>
-            <div className="hero-stat-divider"></div>
-            <div className="hero-stat"><div className="hero-stat-num">{featured?.servings}</div><div className="hero-stat-label">Оброци</div></div>
-            <div className="hero-stat-divider"></div>
-            <div className="hero-stat"><div className="hero-stat-num">100%</div><div className="hero-stat-label">Природно</div></div>
+          <div className="hero-image-right">
+            {settings.hero_image_url
+              ? <img src={settings.hero_image_url} alt="CLEANPRO производ" className="hero-product-img" />
+              : featured?.image_url
+                ? <img src={featured.image_url} alt="CLEANPRO производ" className="hero-product-img" />
+                : null
+            }
           </div>
         </div>
       </section>
