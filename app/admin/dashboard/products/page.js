@@ -152,14 +152,20 @@ export default function ProductsPage() {
 
           <div className="admin-grid-2">
             <div>
-              <label className="admin-label">Цена (ден)</label>
+              <label className="admin-label">Редовна цена (ден)</label>
               <input className="admin-input" type="number" value={editing.price} onChange={(e) => setEditing({ ...editing, price: Number(e.target.value) })} />
             </div>
+            <div>
+              <label className="admin-label">Акциска цена (ден) — остави празно ако нема акција</label>
+              <input className="admin-input" type="number" value={editing.sale_price || ''} onChange={(e) => setEditing({ ...editing, sale_price: e.target.value ? Number(e.target.value) : null })} placeholder="пр. 3590" />
+            </div>
+          </div>
+
+          <div className="admin-grid-2">
             <div>
               <label className="admin-label">Број на оброци</label>
               <input className="admin-input" type="number" value={editing.servings} onChange={(e) => setEditing({ ...editing, servings: Number(e.target.value) })} />
             </div>
-          </div>
 
           <div className="admin-grid-2">
             <div>
