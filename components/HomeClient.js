@@ -100,11 +100,14 @@ export default function HomeClient({ content, settings, products }) {
             user_id: EMAILJS_PUBLIC_KEY,
             template_params: {
               to_email: form.email,
+              email: form.email,
+              name: `${form.firstName} ${form.lastName}`,
               customer_name: `${form.firstName} ${form.lastName}`,
               items: cart.map(i => `${i.name} x${i.qty} = ${fmt(i.price * i.qty)}`).join(', '),
               total: fmt(total),
               address: form.address,
               phone: form.phone,
+              message: `Нарачка: ${cart.map(i => `${i.name} x${i.qty}`).join(', ')} | Вкупно: ${fmt(total)} | Адреса: ${form.address}`,
             }
           })
         });
