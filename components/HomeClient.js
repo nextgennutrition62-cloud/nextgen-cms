@@ -14,7 +14,7 @@ export default function HomeClient({ content, settings, products }) {
   const [checkoutOpen, setCheckoutOpen] = useState(false);
   const [orderDone, setOrderDone] = useState(null);
   const [submitting, setSubmitting] = useState(false);
-  const [form, setForm] = useState({ firstName: '', lastName: '', address: '', phone: '', email: '' });
+  const [form, setForm] = useState({ firstName: '', lastName: '', address: '', street: '', streetNum: '', city: '', phone: '', email: '' });
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [slide, setSlide] = useState(0);
 
@@ -506,8 +506,12 @@ export default function HomeClient({ content, settings, products }) {
                     <div className="form-field"><label>Име</label><input type="text" required value={form.firstName} onChange={e => setForm({ ...form, firstName: e.target.value })} /></div>
                     <div className="form-field"><label>Презиме</label><input type="text" required value={form.lastName} onChange={e => setForm({ ...form, lastName: e.target.value })} /></div>
                   </div>
-                  <div className="form-field"><label>Адреса</label><input type="text" required value={form.address} onChange={e => setForm({ ...form, address: e.target.value })} /></div>
-                  <div className="form-field"><label>Телефон</label><input type="tel" required value={form.phone} onChange={e => setForm({ ...form, phone: e.target.value })} /></div>
+                  <div className="form-field"><label>Улица</label><input type="text" required value={form.street || ''} placeholder="пр. Пролетерска" onChange={e => setForm({ ...form, street: e.target.value, address: `${e.target.value} ${form.streetNum || ''}, ${form.city || ''}` })} /></div>
+                  <div className="form-row-2">
+                    <div className="form-field"><label>Број</label><input type="text" required value={form.streetNum || ''} placeholder="пр. 22" pattern=".*[0-9].*" title="Внеси број на улица" onChange={e => setForm({ ...form, streetNum: e.target.value, address: `${form.street || ''} ${e.target.value}, ${form.city || ''}` })} /></div>
+                    <div className="form-field"><label>Град</label><input type="text" required value={form.city || ''} placeholder="пр. Штип" minLength={2} onChange={e => setForm({ ...form, city: e.target.value, address: `${form.street || ''} ${form.streetNum || ''}, ${e.target.value}` })} /></div>
+                  </div>
+                  <div className="form-field"><label>Телефон</label><input type="tel" required value={form.phone} pattern="^(\+?389|0)7[0-9]\s?[0-9]{3}\s?[0-9]{3}$" title="Внеси валиден македонски телефон (пр. 078 123 456)" placeholder="078 123 456" onChange={e => setForm({ ...form, phone: e.target.value })} /></div>
                   <div className="form-field"><label>Е-пошта</label><input type="email" required value={form.email} onChange={e => setForm({ ...form, email: e.target.value })} /></div>
                   <button type="submit" className="checkout-submit" disabled={submitting || !cart.length}>
                     {submitting ? 'Се испраќа...' : 'Потврди нарачка'}
