@@ -1,6 +1,5 @@
 'use client';
 import { useEffect, useState } from 'react';
-import { createClient } from '@/lib/supabase-client';
 
 const STATUS_LABELS = {
   new: 'Нова',
@@ -16,19 +15,20 @@ export default function OrdersPage() {
   const [expanded, setExpanded] = useState(null);
 
   async function loadOrders() {
-    const supabase = createClient();
-    const { data } = await supabase.from('orders').select('*').order('created_at', { ascending: false });
-    setOrders(data || []);
+    const res = await fetch('/api/get-orders');
+    const data = await res.json();
+    setOrders(Array.isArray(data) ? data : []);
     setLoading(false);
   }
 
-  useEffect(() => {
-    loadOrders();
-  }, []);
+  useEffect(() => { loadOrders(); }, []);
 
   async function updateStatus(id, status) {
-    const supabase = createClient();
-    await supabase.from('orders').update({ status }).eq('id', id);
+    await fetch('/api/update-order', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ id, status })
+    });
     loadOrders();
   }
 
@@ -67,7 +67,7 @@ export default function OrdersPage() {
                     <td>{expanded === o.id ? '▲' : '▼'}</td>
                   </tr>
                   {expanded === o.id && (
-                    <tr>
+                    <tr key={`exp-${o.id}`}>
                       <td colSpan={6} style={{ background: 'var(--bg-soft)', padding: '1.25rem' }}>
                         <div className="admin-grid-2">
                           <div>
