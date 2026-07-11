@@ -269,3 +269,47 @@ footer{padding:4.5rem 3rem 2.5rem;background:var(--white)}
   .coming-grid{grid-template-columns:1fr}
   .footer-inner{grid-template-columns:1fr}
 }
+
+/* ===== SCROLL ANIMATIONS ===== */
+@keyframes fadeUp{from{opacity:0;transform:translateY(40px)}to{opacity:1;transform:translateY(0)}}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+@keyframes slideLeft{from{opacity:0;transform:translateX(60px)}to{opacity:1;transform:translateX(0)}}
+@keyframes slideRight{from{opacity:0;transform:translateX(-60px)}to{opacity:1;transform:translateX(0)}}
+@keyframes scaleIn{from{opacity:0;transform:scale(0.92)}to{opacity:1;transform:scale(1)}}
+
+.anim-fade-up{opacity:0;transform:translateY(40px);transition:opacity 0.7s cubic-bezier(.22,.61,.36,1),transform 0.7s cubic-bezier(.22,.61,.36,1)}
+.anim-fade-in{opacity:0;transition:opacity 0.8s ease}
+.anim-slide-left{opacity:0;transform:translateX(60px);transition:opacity 0.7s cubic-bezier(.22,.61,.36,1),transform 0.7s cubic-bezier(.22,.61,.36,1)}
+.anim-slide-right{opacity:0;transform:translateX(-60px);transition:opacity 0.7s cubic-bezier(.22,.61,.36,1),transform 0.7s cubic-bezier(.22,.61,.36,1)}
+.anim-scale{opacity:0;transform:scale(0.92);transition:opacity 0.7s cubic-bezier(.22,.61,.36,1),transform 0.7s cubic-bezier(.22,.61,.36,1)}
+
+.anim-visible{opacity:1!important;transform:none!important}
+
+.anim-delay-1{transition-delay:0.1s}
+.anim-delay-2{transition-delay:0.2s}
+.anim-delay-3{transition-delay:0.3s}
+.anim-delay-4{transition-delay:0.4s}
+.anim-delay-5{transition-delay:0.5s}
+.anim-delay-6{transition-delay:0.6s}
+
+/* Hover ефекти на картички */
+.why-card,.coming-card,.audience-item,.t-card{transition:all 0.35s cubic-bezier(.22,.61,.36,1)!important}
+.why-card:hover{transform:translateY(-8px) scale(1.02)!important;box-shadow:0 20px 50px rgba(0,0,0,0.1)!important}
+.coming-card:hover{transform:translateY(-6px) scale(1.02)!important}
+.audience-item:hover{transform:translateY(-4px)!important;box-shadow:0 8px 24px rgba(31,138,76,0.12)!important;border-color:var(--green)!important}
+
+/* Nav scroll effect */
+nav{transition:all 0.4s cubic-bezier(.22,.61,.36,1)!important}
+
+/* Button hover animations */
+.btn-dark,.btn-ghost,.btn-light,.nav-cta{transition:all 0.3s cubic-bezier(.22,.61,.36,1)!important}
+.btn-dark:hover{transform:translateY(-3px)!important;box-shadow:0 10px 28px rgba(13,13,13,0.25)!important}
+.btn-light:hover{transform:translateY(-3px)!important;box-shadow:0 10px 28px rgba(255,255,255,0.2)!important}
+
+/* Featured image hover */
+.featured-visual img{transition:transform 0.5s cubic-bezier(.22,.61,.36,1)!important}
+.featured-visual:hover img{transform:scale(1.04) rotate(-1deg)!important}
+
+/* Product cards hover */
+.product-card{transition:all 0.35s cubic-bezier(.22,.61,.36,1)}
+.product-card:hover{transform:translateY(-8px)!important}
