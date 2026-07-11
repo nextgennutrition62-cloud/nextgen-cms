@@ -1,5 +1,5 @@
 'use client';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 const FORMSPREE = 'https://formspree.io/f/mlgywnvy';
 
@@ -25,6 +25,31 @@ export default function HomeClient({ content, settings, products }) {
   const aboutImageUrl = settings.about_image_url || featured?.image_url || '';
   const imgSizeFeatured = Number(settings.img_size_featured || 100);
   const imgSizeAbout = Number(settings.img_size_about || 100);
+
+  // Scroll animations
+  useEffect(() => {
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.classList.add('anim-visible');
+        }
+      });
+    }, { threshold: 0.1, rootMargin: '0px 0px -60px 0px' });
+
+    document.querySelectorAll('.anim-fade-up,.anim-fade-in,.anim-slide-left,.anim-slide-right,.anim-scale').forEach(el => observer.observe(el));
+
+    // Nav scroll effect
+    const handleScroll = () => {
+      const nav = document.querySelector('nav');
+      if (nav) nav.classList.toggle('scrolled', window.scrollY > 40);
+    };
+    window.addEventListener('scroll', handleScroll);
+
+    return () => {
+      observer.disconnect();
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, []);
 
   function addToCart(product) {
     setCart(prev => {
@@ -125,12 +150,12 @@ export default function HomeClient({ content, settings, products }) {
       {/* ABOUT */}
       <section className="about-section" id="about">
         <div className="about-inner">
-          <div>
+          <div className="anim-slide-right">
             <span className="eyebrow">ЗА НАС</span>
             <h2 className="section-title">{about.title}</h2>
             <p className="section-text">{about.text}</p>
           </div>
-          <div className="about-img">
+          <div className="about-img anim-slide-left">
             {aboutImageUrl && <img src={aboutImageUrl} alt="За нас" style={{ maxWidth: `${imgSizeAbout}%`, width: '100%' }} />}
           </div>
         </div>
@@ -138,7 +163,7 @@ export default function HomeClient({ content, settings, products }) {
 
       {/* PHILOSOPHY */}
       <section className="philosophy">
-        <div className="philosophy-inner">
+        <div className="philosophy-inner anim-fade-up">
           <span className="philosophy-eyebrow">WHY WE EXIST</span>
           <h2 className="philosophy-title">{philosophy.title}</h2>
           <p className="philosophy-text">{philosophy.text}</p>
@@ -148,10 +173,10 @@ export default function HomeClient({ content, settings, products }) {
       {/* FEATURED PRODUCT */}
       <section className="featured" id="cleanpro">
         <div className="featured-inner">
-          <div className="featured-visual">
+          <div className="featured-visual anim-slide-right">
             {featured?.image_url && <img src={featured.image_url} alt={featured.name} style={{ maxWidth: `${imgSizeFeatured}%`, width: '100%' }} />}
           </div>
-          <div>
+          <div className="anim-slide-left">
             <span className="featured-tag">OUR FIRST PRODUCT</span>
             <h2 className="featured-title">CLEANPRO</h2>
             <p className="featured-desc">{featured?.description}</p>
@@ -212,7 +237,7 @@ export default function HomeClient({ content, settings, products }) {
 
       {/* MISSION */}
       <section className="mission">
-        <div className="mission-inner">
+        <div className="mission-inner anim-scale">
           <p className="mission-text">{mission.text}</p>
         </div>
       </section>
@@ -236,7 +261,7 @@ export default function HomeClient({ content, settings, products }) {
 
       {/* FINAL CTA */}
       <section className="final-cta">
-        <div className="final-cta-inner">
+        <div className="final-cta-inner anim-fade-up">
           <h2 className="final-cta-title">Не чекај понеделник.<br />Започни денес.</h2>
           <p className="final-cta-sub">Подобрите навики не започнуваат во иднина. Започнуваат сега.</p>
           <button className="btn-light" onClick={() => featured && addToCart(featured)}>Започни со CLEANPRO</button>
