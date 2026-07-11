@@ -2,6 +2,9 @@
 import { useState, useEffect } from 'react';
 
 const FORMSPREE = 'https://formspree.io/f/mlgywnvy';
+const EMAILJS_SERVICE = 'service_ziyrgw4';
+const EMAILJS_TEMPLATE = 'template_gqqcmel';
+const EMAILJS_PUBLIC_KEY = '7wqEQ9CArSgbUe5Yr';
 
 function fmt(n) { return Number(n).toLocaleString('mk-MK') + ' ден'; }
 
@@ -85,6 +88,30 @@ export default function HomeClient({ content, settings, products }) {
     try {
       const res = await fetch(FORMSPREE, { method: 'POST', headers: { 'Content-Type': 'application/json', Accept: 'application/json' }, body: JSON.stringify(payload) });
       if (!res.ok) throw new Error();
+
+      // Испрати потврда до купувачот преку EmailJS
+      try {
+        await fetch('https://api.emailjs.com/api/v1.0/email/send', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            service_id: EMAILJS_SERVICE,
+            template_id: EMAILJS_TEMPLATE,
+            user_id: EMAILJS_PUBLIC_KEY,
+            template_params: {
+              to_email: form.email,
+              customer_name: `${form.firstName} ${form.lastName}`,
+              items: cart.map(i => `${i.name} x${i.qty} = ${fmt(i.price * i.qty)}`).join(', '),
+              total: fmt(total),
+              address: form.address,
+              phone: form.phone,
+            }
+          })
+        });
+      } catch (emailErr) {
+        console.log('EmailJS error (non-critical):', emailErr);
+      }
+
       await fetch('/api/orders', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ first_name: form.firstName, last_name: form.lastName, email: form.email, phone: form.phone, address: form.address, items: cart, subtotal, shipping: shippingCost, total }) });
       setOrderDone({ ...form, total });
       setCart([]);
