@@ -13,6 +13,7 @@ export default function HomeClient({ content, settings, products }) {
   const [submitting, setSubmitting] = useState(false);
   const [form, setForm] = useState({ firstName: '', lastName: '', address: '', phone: '', email: '' });
   const [selectedProduct, setSelectedProduct] = useState(null);
+  const [slide, setSlide] = useState(0);
 
   const hero = content.hero || {};
   const about = content.about || {};
@@ -181,26 +182,65 @@ export default function HomeClient({ content, settings, products }) {
         </div>
       </section>
 
-      {/* FEATURED PRODUCT */}
+      {/* FEATURED PRODUCT SLIDESHOW */}
       <section className="featured" id="cleanpro">
-        <div className="featured-inner">
-          <div className="featured-visual anim-slide-right">
-            {featured?.image_url && <img src={featured.image_url} alt={featured.name} style={{ maxWidth: `${imgSizeFeatured}%`, width: '100%' }} />}
-          </div>
-          <div className="anim-slide-left">
+        <div style={{ maxWidth: 1200, margin: '0 auto', width: '100%' }}>
+          <div style={{ textAlign: 'center', marginBottom: '2.5rem' }}>
             <span className="featured-tag">OUR FIRST PRODUCT</span>
-            <h2 className="featured-title">CLEANPRO</h2>
-            <p className="featured-desc">{featured?.description}</p>
-            <div className="featured-stats">
-              <div><div className="fstat-num">{featured?.protein_g}g</div><div className="fstat-label">Протеин</div></div>
-              <div><div className="fstat-num">{featured?.sugar_g}g</div><div className="fstat-label">Шеќер</div></div>
-              <div><div className="fstat-num">{featured?.servings}</div><div className="fstat-label">Оброци</div></div>
-            </div>
-            <div className="featured-actions">
-              <button className="btn-dark" onClick={() => featured && addToCart(featured)}>Нарачај сега</button>
-              <a href="#about" className="btn-ghost">Прочитај повеќе</a>
-            </div>
           </div>
+
+          {products.length > 0 && (() => {
+            const p = products[Math.min(slide, products.length - 1)];
+            return (
+              <div>
+                <div className="featured-inner">
+                  <div className="featured-visual">
+                    {p?.image_url && <img src={p.image_url} alt={p.name} style={{ maxWidth: `${imgSizeFeatured}%`, width: '100%' }} />}
+                  </div>
+                  <div>
+                    <h2 className="featured-title">{p?.name}</h2>
+                    <p className="featured-desc">{p?.description}</p>
+                    <div className="featured-stats">
+                      <div><div className="fstat-num">{p?.protein_g}g</div><div className="fstat-label">Протеин</div></div>
+                      <div><div className="fstat-num">{p?.sugar_g}g</div><div className="fstat-label">Шеќер</div></div>
+                      <div><div className="fstat-num">{p?.servings}</div><div className="fstat-label">Оброци</div></div>
+                    </div>
+                    <div style={{ marginBottom: '1.5rem' }}>
+                      {p?.sale_price ? (
+                        <div>
+                          <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+                            <span style={{ fontSize: '2rem', fontWeight: 800, color: '#E03A3A' }}>{fmt(p.sale_price)}</span>
+                            <span style={{ fontSize: '1.1rem', color: 'var(--gray-light)', textDecoration: 'line-through' }}>{fmt(p.price)}</span>
+                          </div>
+                          <span style={{ background: '#E03A3A', color: '#fff', fontSize: '0.7rem', fontWeight: 700, padding: '3px 10px', borderRadius: '100px', display: 'inline-block', marginTop: '0.4rem' }}>
+                            -{Math.round((1 - p.sale_price / p.price) * 100)}% ПОПУСТ
+                          </span>
+                        </div>
+                      ) : p?.price ? (
+                        <span style={{ fontSize: '2rem', fontWeight: 700 }}>{fmt(p.price)}</span>
+                      ) : null}
+                    </div>
+                    <div className="featured-actions">
+                      <button className="btn-dark" onClick={() => p && addToCart(p)}>Нарачај сега</button>
+                      <a href="#about" className="btn-ghost">Прочитај повеќе</a>
+                    </div>
+                  </div>
+                </div>
+                {products.length > 1 && (
+                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '1rem', marginTop: '2.5rem' }}>
+                    <button onClick={() => setSlide(s => (s - 1 + products.length) % products.length)}
+                      style={{ width: 42, height: 42, borderRadius: '50%', border: '1.5px solid var(--border)', background: 'var(--white)', cursor: 'pointer', fontSize: '1.1rem', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>←</button>
+                    {products.map((_, i) => (
+                      <button key={i} onClick={() => setSlide(i)}
+                        style={{ width: i === slide ? 28 : 10, height: 10, borderRadius: '100px', border: 'none', background: i === slide ? 'var(--green)' : 'var(--border)', cursor: 'pointer', transition: 'all 0.3s', padding: 0 }} />
+                    ))}
+                    <button onClick={() => setSlide(s => (s + 1) % products.length)}
+                      style={{ width: 42, height: 42, borderRadius: '50%', border: '1.5px solid var(--border)', background: 'var(--white)', cursor: 'pointer', fontSize: '1.1rem', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>→</button>
+                  </div>
+                )}
+              </div>
+            );
+          })()}
         </div>
       </section>
 
