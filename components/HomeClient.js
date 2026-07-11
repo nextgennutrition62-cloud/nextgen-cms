@@ -12,6 +12,7 @@ export default function HomeClient({ content, settings, products }) {
   const [orderDone, setOrderDone] = useState(null);
   const [submitting, setSubmitting] = useState(false);
   const [form, setForm] = useState({ firstName: '', lastName: '', address: '', phone: '', email: '' });
+  const [selectedProduct, setSelectedProduct] = useState(null);
 
   const hero = content.hero || {};
   const about = content.about || {};
@@ -213,19 +214,53 @@ export default function HomeClient({ content, settings, products }) {
             </div>
             <div className="why-grid" style={{ gridTemplateColumns: `repeat(${Math.min(products.length, 4)}, 1fr)` }}>
               {products.map(p => (
-                <div key={p.id} className="why-card">
-                  {p.image_url && <img src={p.image_url} alt={p.flavor} style={{ width: '100%', borderRadius: 10, marginBottom: '0.75rem', objectFit: 'contain', maxHeight: 140 }} />}
-                  <div className="why-title">{p.flavor}</div>
-                  <div className="why-text">{p.description}</div>
-                  <div style={{ marginTop: '1rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                    <strong>{fmt(p.price)}</strong>
-                    <button className="btn-ghost" style={{ padding: '0.5rem 1rem', fontSize: '0.78rem' }} onClick={() => addToCart(p)}>Купи</button>
+                <div key={p.id} className="why-card product-card-clickable" onClick={() => setSelectedProduct(p)} style={{ cursor: 'pointer', padding: 0, overflow: 'hidden' }}>
+                  <div style={{ background: 'var(--bg-soft)', padding: '1.5rem', display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: 180 }}>
+                    {p.image_url && <img src={p.image_url} alt={p.flavor} style={{ width: '100%', maxHeight: 160, objectFit: 'contain', transition: 'transform 0.4s ease' }} />}
+                  </div>
+                  <div style={{ padding: '1.25rem' }}>
+                    <div className="why-title">{p.flavor}</div>
+                    <div className="why-text" style={{ marginTop: '0.4rem', fontSize: '0.82rem' }}>{p.description?.slice(0, 60)}...</div>
+                    <div style={{ marginTop: '1rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                      <strong style={{ fontSize: '1.1rem' }}>{fmt(p.price)}</strong>
+                      <span style={{ fontSize: '0.78rem', color: 'var(--green)', fontWeight: 600 }}>Погледни →</span>
+                    </div>
                   </div>
                 </div>
               ))}
             </div>
           </div>
         </section>
+      )}
+
+      {/* PRODUCT MODAL */}
+      {selectedProduct && (
+        <div className="modal-overlay open" onClick={e => e.target === e.currentTarget && setSelectedProduct(null)}>
+          <div className="modal-box" style={{ maxWidth: 780 }}>
+            <button className="modal-close" onClick={() => setSelectedProduct(null)}>&times;</button>
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', minHeight: 420 }}>
+              <div style={{ background: 'var(--bg-soft)', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '2.5rem', borderRadius: '20px 0 0 20px' }}>
+                {selectedProduct.image_url && <img src={selectedProduct.image_url} alt={selectedProduct.flavor} style={{ width: '100%', maxHeight: 320, objectFit: 'contain' }} />}
+              </div>
+              <div style={{ padding: '2.5rem', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+                <span style={{ fontSize: '0.7rem', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--green)', marginBottom: '0.5rem', display: 'block' }}>{selectedProduct.flavor}</span>
+                <h2 style={{ fontSize: '2rem', fontWeight: 700, letterSpacing: '-0.02em', marginBottom: '0.75rem' }}>{selectedProduct.name}</h2>
+                <p style={{ color: 'var(--gray)', fontSize: '0.92rem', lineHeight: 1.75, marginBottom: '1.5rem' }}>{selectedProduct.description}</p>
+                <div style={{ display: 'flex', gap: '1.5rem', marginBottom: '1.5rem', paddingBottom: '1.5rem', borderBottom: '1px solid var(--border)' }}>
+                  <div style={{ textAlign: 'center' }}><div style={{ fontSize: '1.4rem', fontWeight: 700, color: 'var(--green)' }}>{selectedProduct.protein_g}g</div><div style={{ fontSize: '0.65rem', color: 'var(--gray)', textTransform: 'uppercase', letterSpacing: '0.08em' }}>Протеин</div></div>
+                  <div style={{ textAlign: 'center' }}><div style={{ fontSize: '1.4rem', fontWeight: 700, color: 'var(--green)' }}>{selectedProduct.sugar_g}g</div><div style={{ fontSize: '0.65rem', color: 'var(--gray)', textTransform: 'uppercase', letterSpacing: '0.08em' }}>Шеќер</div></div>
+                  <div style={{ textAlign: 'center' }}><div style={{ fontSize: '1.4rem', fontWeight: 700, color: 'var(--green)' }}>{selectedProduct.servings}</div><div style={{ fontSize: '0.65rem', color: 'var(--gray)', textTransform: 'uppercase', letterSpacing: '0.08em' }}>Оброци</div></div>
+                </div>
+                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '1.25rem' }}>
+                  <span style={{ fontSize: '1.8rem', fontWeight: 700 }}>{fmt(selectedProduct.price)}</span>
+                </div>
+                <button className="btn-dark" style={{ width: '100%', textAlign: 'center', padding: '1rem' }} onClick={() => { addToCart(selectedProduct); setSelectedProduct(null); }}>
+                  Додади во кошничка
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
       )}
 
       {/* AUDIENCE */}
