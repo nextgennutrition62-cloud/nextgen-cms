@@ -1,4 +1,5 @@
 import './globals.css';
+import CookieConsent from '@/components/CookieConsent';
 
 export const metadata = {
   metadataBase: new URL('https://nutritionnextgen.com'),
@@ -54,7 +55,10 @@ export default function RootLayout({ children }) {
           rel="stylesheet"
         />
       </head>
-      <body>{children}</body>
+      <body>
+        {children}
+        <CookieConsent />
+      </body>
     </html>
   );
 }
