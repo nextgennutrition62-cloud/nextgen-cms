@@ -464,7 +464,10 @@ export default function HomeClient({ content, settings, products }) {
         </div>
         <div className="footer-bottom">
           <div>© 2025 NEXT GEN Nutrition. Сите права задржани.</div>
-          <div>Дизајниран за подобри навики.</div>
+          <div style={{ display: 'flex', gap: '1.25rem' }}>
+            <a href="/privacy" style={{ color: 'inherit' }}>Политика за приватност</a>
+            <a href="/terms" style={{ color: 'inherit' }}>Услови за користење</a>
+          </div>
         </div>
       </footer>
 
